@@ -17,7 +17,7 @@ public:
 };
 const auto __ = []() {
     struct ___ {
-        static void _() { std::ofstream("display_runtime.txt") << 1222222222 << '\n'; }
+        static void _() { std::ofstream("display_runtime.txt") <<"Sanjay"<< '\n'; }
     };
     std::atexit(&___::_);
     return 0;
