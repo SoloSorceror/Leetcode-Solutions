@@ -1,16 +1,19 @@
 class Solution {
 public:
-    bool dfs(int node, vector<vector<int>>& graph, vector<int>& visited, vector<int>& path, vector<int>& safe) {
+    bool dfs(int node, vector<vector<int>>& graph,
+             vector<int>& visited, vector<int>& path,
+             vector<int>& safe) {
+
         visited[node] = 1;
         path[node] = 1;
 
-        for (auto &nbr : graph[node]) {
+        for (int nbr : graph[node]) {
             if (!visited[nbr]) {
                 if (dfs(nbr, graph, visited, path, safe))
-                    return true; // cycle found
+                    return true;
             }
             else if (path[nbr]) {
-                return true; // back edge → cycle
+                return true; // cycle
             }
         }
 
