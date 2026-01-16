@@ -1,48 +1,49 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        int fresh = 0;
-        int time = 0;
+        int n = grid.size();
+        int m = grid[0].size();
 
         queue<pair<int,int>> q;
+        int fresh = 0;
 
-        for(int i=0; i<m; i++){
-            for(int j =0; j<n; j++){
-                if(grid[i][j] == 2){
-                    q.push({i,j});
-                }
-                else if(grid[i][j]==1){
+        // Step 1: Push all rotten oranges
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(grid[i][j] == 2)
+                    q.push({i, j});
+                else if(grid[i][j] == 1)
                     fresh++;
-                }
             }
         }
 
-        while(!q.empty() && fresh>0){
-            int size = q.size();
+        int dx[4] = {-1, 0, 1, 0};
+        int dy[4] = {0, 1, 0, -1};
+
+        int time = 0;
+
+        // Step 2: Multi-source BFS
+        while(!q.empty() && fresh > 0){
+            int sz = q.size();
             time++;
 
-            int dr[4] = {-1,0,1,0};
-            int dc[4] = {0,1,0,-1};
-
-            for(int i=0; i<size; i++){
-                auto [r,c] = q.front();
+            for(int i = 0; i < sz; i++){
+                auto [r, c] = q.front();
                 q.pop();
 
-                for(int k =0; k<4; k++){
-                    int nr = r + dr[k];
-                    int nc = c + dc[k];
+                for(int d = 0; d < 4; d++){
+                    int nr = r + dx[d];
+                    int nc = c + dy[d];
 
-                    if(nr>=0 && nr<m && nc>=0 && nc<n && grid[nr][nc] == 1){
-                        grid[nr][nc] = 2;
-                        q.push({nr,nc});
+                    if(nr >= 0 && nr < n && nc >= 0 && nc < m && grid[nr][nc] == 1){
+                        grid[nr][nc] = 2;   // mark rotten
                         fresh--;
+                        q.push({nr, nc});
                     }
-                } 
+                }
             }
         }
-        return fresh==0 ? time : -1;
 
+        return fresh == 0 ? time : -1;
     }
 };
