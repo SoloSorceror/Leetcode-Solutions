@@ -1,11 +1,19 @@
 class Solution {
 public:
     void dfs(int node, vector<int> &visited,vector<vector<int>>& isConnected){
-        visited[node] = 1;
         int n = isConnected.size();
-        for(int i=0; i<n; i++){
-            if(!visited[i] && isConnected[node][i] == 1){
-                dfs(i, visited, isConnected);
+        queue<int> q;
+        q.push(node);
+        visited[node] =1;
+
+        while(!q.empty()){
+            auto num = q.front();
+            q.pop();
+            for(int i=0; i<n; i++){
+                if(!visited[i] && isConnected[num][i]==1){
+                    q.push(i);
+                    visited[i] =1;
+                }
             }
         }
     }
