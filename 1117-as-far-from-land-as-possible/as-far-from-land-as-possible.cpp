@@ -7,36 +7,38 @@ public:
 
         int n = grid.size();
         int m = grid[0].size();
-        int maxi = -1;
-        vector<vector<int>> distance(n,vector<int>(m,1e9));
         queue<pair<int,int>> q;
+
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
                 if(grid[i][j]==1){
-                    distance[i][j] = 0;
                     q.push({i,j});
                 }
             }
         }
+        if (q.empty() || q.size() == n * m) return -1;
+
         int dx[4] = {-1,0,1,0};
         int dy[4] = {0,1,0,-1};
+        int distance = -1;
+
         while(!q.empty()){
             int s = q.size();
+            distance++;
             for(int i=0; i<s; i++){
                 auto [r,c] = q.front();
                 q.pop();
-                for(int i=0; i<4; i++){
-                    int nr = r + dx[i];
-                    int nc = c + dy[i];
+                for(int d=0; d<4; d++){
+                    int nr = r + dx[d];
+                    int nc = c + dy[d];
 
-                    if(nr>=0 && nr<n && nc>=0 && nc<m && distance[r][c] + 1 < distance[nr][nc]){
-                        distance[nr][nc] = distance[r][c] + 1;
-                        maxi = max(maxi,distance[r][c] + 1);
+                    if(nr>=0 && nr<n && nc>=0 && nc<m && grid[nr][nc]==0){
+                        grid[nr][nc] = 1; // mark visited directly in grid
                         q.push({nr,nc});
                     }
                 }
             }
         }
-        return maxi;
+        return distance;
     }
 };
