@@ -1,42 +1,38 @@
 class Solution {
 public:
-    bool dfs(int node, vector<vector<int>>& graph,
-             vector<int>& visited, vector<int>& path,
-             vector<int>& safe) {
-
-        visited[node] = 1;
-        path[node] = 1;
-
-        for (int nbr : graph[node]) {
-            if (!visited[nbr]) {
-                if (dfs(nbr, graph, visited, path, safe))
-                    return true;
-            }
-            else if (path[nbr]) {
-                return true; // cycle
-            }
-        }
-
-        path[node] = 0;
-        safe[node] = 1; // no cycle from here
-        return false;
-    }
-
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        int V = graph.size();
-        vector<int> visited(V, 0), path(V, 0), safe(V, 0);
+        int n = graph.size();
+        vector<vector<int>> revGraph(n);
+        vector<int> indegree(n,0);
 
-        for (int i = 0; i < V; i++) {
-            if (!visited[i]) {
-                dfs(i, graph, visited, path, safe);
+        for(int i=0; i<n; i++){
+            for(int v: graph[i]){
+                revGraph[v].push_back(i);
+                indegree[i]++;
             }
         }
+        queue<int> q;
 
-        vector<int> ans;
-        for (int i = 0; i < V; i++) {
-            if (safe[i])
-                ans.push_back(i);
+        for(int i=0; i<n; i++){
+            if(indegree[i]==0){
+                q.push(i);
+            }
         }
-        return ans;
+        vector<int> safe;
+
+        // Kahn's ALgorithm
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            safe.push_back(node);
+
+            for(int prev: revGraph[node]){
+                if(--indegree[prev]==0){
+                    q.push(prev);
+                }
+            }
+        }
+        sort(safe.begin(),safe.end());
+        return safe;
     }
 };
