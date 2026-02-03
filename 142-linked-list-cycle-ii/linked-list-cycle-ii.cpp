@@ -7,33 +7,25 @@
  * };
  */
 class Solution {
-private:
-    bool detect(ListNode *head){
+public:
+    ListNode* detectCycle(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return nullptr;
+
         ListNode* slow = head;
         ListNode* fast = head;
 
-        while(fast && fast->next){
-            slow = slow ->next;
+        while (fast && fast->next){
+            slow = slow->next;
             fast = fast->next->next;
-            if(fast == slow) return true;
+            if(slow == fast) break;
         }
-        return false;
-    }
-public:
-    ListNode *detectCycle(ListNode *head) {
-        ListNode* temp = head;
-        unordered_set<ListNode*> st;
-        if(head == nullptr || head->next == nullptr){
-            return nullptr;
-        }
+        if(fast == nullptr || fast->next == nullptr) return nullptr;
 
-        bool cycle = detect(head);
-        if(!cycle) return nullptr;
-
-        while(!st.count(temp) && temp->next){
-            st.insert(temp);
-            temp = temp->next;
+        slow = head;
+        while(slow !=fast){
+            slow = slow->next;
+            fast = fast->next;
         }
-        return temp;
+        return slow;
     }
 };
