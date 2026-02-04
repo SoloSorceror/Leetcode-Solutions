@@ -1,23 +1,22 @@
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        int n = nums.size();
-        unordered_map<int,int>map;
-        vector<int> res;
+        unordered_map<int,int> map;
+        int s = nums.size();
         for(auto &a: nums){
             map[a]++;
         }
-        vector<vector<int>> ans(n+1);
-
+        vector<vector<int>> arr(s+1);
         for(auto &a: map){
-            ans[a.second].push_back(a.first);
+            arr[a.second].push_back(a.first);
         }
-        for(int i = n; i>0; i--){ // no number has a 0 frequency genius
-            for(auto a: ans[i]){
-                if(res.size() == k) return res;
-                res.push_back(a);
+        vector<int> ans;
+        for(int i =s; i>=0; i--){
+            for(auto &a: arr[i]){
+                if(ans.size() == k) return ans;
+                ans.push_back(a);
             }
         }
-        return res;
+        return ans;
     }
 };
