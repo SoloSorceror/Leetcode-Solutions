@@ -1,14 +1,18 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        unordered_map<char,int> map1;
-        unordered_map<char,int> map2;
+        int n = s.size();
+        if(s.size() != t.size()) return false;
+        vector<int> freq(26,0);
         for(int i =0; i<s.size(); i++){
-            map1[s[i]]++;
+            freq[s[i]-'a']++;
         }
-        for(int i =0; i<t.size(); i++){
-            map2[t[i]]++;
+        for(int i=0; i<t.size(); i++){
+            freq[t[i]-'a']--;
         }
-        return map1 == map2;
+        for(int i=0; i<26; i++){
+            if(freq[i] > 0) return false;
+        }
+        return true;
     }
 };
