@@ -1,6 +1,7 @@
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        if (intervals.empty()) return {};
         int n = intervals.size();
         sort(intervals.begin(),intervals.end());
         vector<vector<int>> ans;
