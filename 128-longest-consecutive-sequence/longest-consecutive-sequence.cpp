@@ -1,24 +1,19 @@
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        unordered_map<int, int> mp;
-        int res = 0;
-
-        for (int num : nums) {
-            if (!mp[num]) {
-                mp[num] = mp[num - 1] + mp[num + 1] + 1;
-                mp[num - mp[num - 1]] = mp[num];
-                mp[num + mp[num + 1]] = mp[num];
-                res = max(res, mp[num]);
+        unordered_set<int> st(nums.begin(),nums.end());
+        int maximum = 0;
+        for(int x: st){
+            int count = 0;
+            if(st.find(x-1) == st.end()){
+                count++;
+                while(st.find(x+1) != st.end()){
+                    x++;
+                    count++;
+                }
+                maximum = max(maximum,count);
             }
         }
-        return res;
+        return maximum;
     }
 };
-const auto __ = []() {
-    struct ___ {
-        static void _() { std::ofstream("display_runtime.txt") <<99999999<< '\n'; }
-    };
-    std::atexit(&___::_);
-    return 0;
-}();
