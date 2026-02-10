@@ -6,7 +6,7 @@ public:
         int maxi = 0;
         for(int i=0; i<fruits.size(); i++){
             map[fruits[i]]++;
-            if(map.size()>2){
+            while(map.size()>2){
                 int leftVal = fruits[left];
                 map[leftVal]--;
                 if (map[leftVal] == 0) {
