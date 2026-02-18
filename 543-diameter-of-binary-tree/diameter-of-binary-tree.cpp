@@ -11,18 +11,17 @@
  */
 class Solution {
 public:
+    int dfs(TreeNode* root, int &maxi){
+        if(!root) return 0;
+        int leftHeight = dfs(root->left,maxi);
+        int rightHeight = dfs(root->right,maxi);
+        maxi = max(maxi, leftHeight + rightHeight);
+        return 1 + max(leftHeight, rightHeight);
+    }
     int diameterOfBinaryTree(TreeNode* root) {
+        if(!root) return 0;
         int maxi = 0;
         dfs(root,maxi);
         return maxi;
-    }
-private:
-    int dfs(TreeNode* root, int &maxi){
-        if(!root) return 0;
-        int left = dfs(root->left,maxi);
-        int right = dfs(root->right,maxi);
-
-        maxi = max(maxi, left+right);
-        return 1+ max(left,right);
     }
 };
