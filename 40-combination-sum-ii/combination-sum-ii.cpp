@@ -1,23 +1,27 @@
 class Solution {
 public:
-    void rec(int index, int target, vector<int> &ds, vector<vector<int>> &ans, vector<int> &candidates){
-        if(target == 0){
-            ans.push_back(ds);
+    void rec(int idx, vector<int>& nums, vector<int>& curr,
+             vector<vector<int>>& ans, int target) {
+        if (target == 0) {
+            ans.push_back(curr);
             return;
         }
-        for(int i=index; i<candidates.size(); i++){
-            if(i>index && candidates[i-1] == candidates[i]) continue;
-            if(candidates[i]> target) break;
-            ds.push_back(candidates[i]);
-            rec(i+1,target-candidates[i],ds,ans,candidates);
-            ds.pop_back();
+        if (target < 0) {
+            return;
+        }
+        for (int i = idx; i < nums.size(); i++) {
+            if (i > idx && nums[i - 1] == nums[i])
+                continue;
+            curr.push_back(nums[i]);
+            rec(i + 1, nums, curr, ans, target - nums[i]);
+            curr.pop_back();
         }
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<int> curr;
         vector<vector<int>> ans;
-        vector<int> ds;
-        sort(candidates.begin(),candidates.end());
-        rec(0,target,ds,ans,candidates);
+        sort(candidates.begin(), candidates.end());
+        rec(0, candidates, curr, ans, target);
         return ans;
     }
 };
