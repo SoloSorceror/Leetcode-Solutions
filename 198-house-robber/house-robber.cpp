@@ -1,18 +1,23 @@
 class Solution {
 public:
-    int rec(int i, vector<int> &nums, vector<int> &dp){
-        if(i<0) return 0;
-        if(dp[i]!= -1) return dp[i];
-
-        int pick = nums[i] + rec(i-2,nums,dp);
-        int notPick = rec(i-1,nums,dp);
-
-        return dp[i] = max(pick,notPick);
-    }
-    
     int rob(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp(n,-1);
-        return rec(n-1,nums,dp);
+
+        int prev2 = 0;
+        int prev1 = nums[0];
+        
+        for(int i=1; i<n; i++){
+            int pick = nums[i];
+            if(i-2 >=0){
+                pick += prev2;
+            }
+            int notPick = prev1;
+
+            int temp = max(pick,notPick);
+            
+            prev2 = prev1;
+            prev1 = temp;
+        }
+        return prev1;
     }
 };
