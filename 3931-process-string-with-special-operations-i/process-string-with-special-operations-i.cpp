@@ -1,19 +1,14 @@
 class Solution {
-private:
-    string remove(string &s){
-        if(s.length()<1) return s;
-        else s.pop_back();
-        return s;
-    }
 public:
     string processStr(string s) {
-        string result = "";
+        string result;
+        result.reserve(s.length());
         for(char c: s){
             if(c=='#'){
-                result = result+result;
+                result += result;
             }
             else if(c=='*'){
-                remove(result);
+               if(!result.empty()) result.pop_back();
             }
             else if(c=='%'){
                 reverse(result.begin(),result.end());
