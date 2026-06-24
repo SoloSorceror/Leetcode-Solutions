@@ -4,20 +4,18 @@ public:
         if(matrix.empty()) return false;
         int n = matrix.size();
         int m = matrix[0].size();
-        int row = 0;
-        int col = m-1;
-        while(row <n && col>=0){
-            int ans = matrix[row][col];
 
-            if(ans<target){
+        int row = 0;
+        int col = m - 1;
+
+        while (row < n && col >= 0) {
+            if (matrix[row][col] < target) {
                 row++;
-            }
-            else if(ans>target){
+            } else if(matrix[row][col] > target) {
                 col--;
             }
-            else if(ans == target){
+            else if (matrix[row][col] == target)
                 return true;
-            }
         }
         return false;
     }
