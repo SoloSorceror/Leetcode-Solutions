@@ -1,14 +1,14 @@
 class Solution {
 public:
-
-    void dfs(int src, int dst, vector<vector<int>>& graph, vector<vector<int>> &ans, vector<int> &path){
+    void dfs(int src, int dst, vector<vector<int>>& graph,
+             vector<vector<int>>& ans, vector<int>& path) {
         path.push_back(src);
-        if(src == dst){
+        if (src == dst) {
             ans.push_back(path);
-        }
-
-        for(auto &g: graph[src]){
-            dfs(g,dst,graph,ans,path);
+        } else {
+            for (auto& g : graph[src]) {
+                dfs(g, dst, graph, ans, path);
+            }
         }
         path.pop_back();
     }
@@ -18,7 +18,7 @@ public:
         vector<int> path;
 
         vector<vector<int>> ans;
-        dfs(0,n-1,graph,ans,path);
+        dfs(0, n - 1, graph, ans, path);
         return ans;
     }
 };
