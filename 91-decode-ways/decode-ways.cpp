@@ -18,19 +18,23 @@ private:
 public:
     int numDecodings(string s) {
         int n = s.length();
-        vector<int> dp(n+1,0);
-        dp[n] = 1;
+        int prev1 = 1;
+        int prev2 = 1;
 
         for(int i=n-1; i>=0; i--){
+            int curr = 0;
             if(s[i] == '0'){
-                dp[i] = 0;
+                prev2 = prev1;
+                prev1 = 0;
                 continue;
             }
-            dp[i] = dp[i+1];
+            curr = prev1;
             if(i+1 < n && (s[i] == '1' || s[i] == '2' && s[i+1] <= '6')){
-                dp[i] += dp[i+2];
+                curr += prev2;
             }
+            prev2 = prev1;
+            prev1 = curr;
         }
-        return dp[0];
+        return prev1;
     }
 };
