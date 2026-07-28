@@ -3,47 +3,26 @@ public:
     string smallestPalindrome(string str) {
         if(str.size() == 1) return str;
 
-        vector<int> mp(26,0);
+        vector<int> freq(26,0);
         for(auto &s: str){
-            mp[s-'a']++;
+            freq[s-'a']++;
         }
+
         string ans = str;
         int left = 0, right = str.size()-1;
-        bool first = false;
-        string val = "";
+        char mid = '\0';
 
         for(int i=0; i<26; i++){
-            int count = mp[i];
-            if(count==0) continue;
-
-            if(count == 1){
-                val = 'a' + i;
-                continue;
+            while(freq[i] >=2){
+                ans[left++] = ans[right--] = char('a' + i);
+                freq[i] -= 2;
             }
-            int curr = count;
-            while(count>0){
-                if(curr % 2 != 0){
-                    val = 'a' + i;
-                    count--;
-                    curr = 2;
-                    continue;
-                }
-                ans[left++] = 'a' + i;
-                count--;
-                if(count>0){
-                    ans[right--] = 'a' + i;
-                    count--;
-                }
+            if(freq[i] == 1){
+                mid = char('a' + i);
             }
         }
-        string buildAns = "";
-
-        if(val != ""){
-            int half = ans.size()/2;
-            buildAns += ans.substr(0,half);
-            buildAns += val;
-            buildAns += ans.substr(half+1,ans.size());
-            return buildAns;
+        if(mid != '\0'){
+            ans[left] = mid;
         }
         return ans;
     }
