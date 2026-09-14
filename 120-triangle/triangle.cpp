@@ -9,10 +9,7 @@ public:
             return dp[m][n];
 
         int down = rec(m+1, n, triangle, dp);
-
-        int diag = 1e9;
-        //if(n + 1 < triangle[m+1].size())
-            diag = rec(m+1, n+1, triangle, dp);
+        int diag = rec(m+1, n+1, triangle, dp);
 
         return dp[m][n] = triangle[m][n] + min(down, diag);
     }
