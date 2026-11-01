@@ -1,29 +1,36 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
-        stack<int> st;
+    int largestRectangleArea(vector<int>& heights){
         int n = heights.size();
-        int maxi = 0;
+        vector<int> nse(n,n);
+        vector<int> pse(n,-1);
 
-        for (int i = 0; i < n; i++) {
-            while (!st.empty() && heights[st.top()] > heights[i]) {
-                int element = heights[st.top()];
+        stack<int> st;
+
+        for(int i=0; i<n; i++){
+            while(!st.empty() && heights[i] <= heights[st.top()]){
                 st.pop();
-                int pse = st.empty() ? -1: st.top();
-                int nse = i;
-
-                maxi = max(maxi, (nse - pse - 1) * element);
+            }
+            if(!st.empty()){
+                pse[i] = st.top();
             }
             st.push(i);
         }
+        while(!st.empty()) st.pop();
 
-        while (!st.empty()) {
-            int element = heights[st.top()];
-            st.pop();
-            int pse = st.empty() ? -1: st.top();
-            int nse = n;
-
-            maxi = max(maxi, (nse - pse - 1) * element);
+        for(int i=n-1; i>=0; i--){
+            while(!st.empty() && heights[i] <= heights[st.top()]){
+                st.pop();
+            }
+            if(!st.empty()){
+                nse[i] = st.top();
+            }
+            st.push(i);
+        }
+        int maxi = 0;
+        for(int i=0; i<n; i++){
+            int val = heights[i] * (nse[i] - pse[i] -1);
+            maxi = max(maxi,val);
         }
         return maxi;
     }
